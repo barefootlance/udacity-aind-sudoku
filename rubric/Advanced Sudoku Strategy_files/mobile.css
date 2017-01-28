@@ -1,0 +1,47 @@
+h1 {font-size:140%} 
+h2 {font-size:120%} 
+/* disable float left */
+.imgfloatleft {float:none;margin:5px}
+.imgfloatright {float:none;margin:5px;margin-left:0px}
+/* Allow dynamic resize with a margin */
+.imgresize {width:96%;height:96%}
+
+.dropfont::first-letter {font-size:150%;padding-right:2px;}
+
+#topbarleft
+{
+left: 0; 
+width: 0px; 
+height: 70px;
+display:none;
+visibility:hidden;
+overflow: hidden; 
+}
+.rightgoogle
+{
+display:none;
+visibility:hidden;
+}
+.widegoogle
+{
+display:none;
+visibility:hidden;
+}
+.clearboxmobile
+{
+	clear:both;
+}
+.restab
+{
+	clear:both;
+}
+#topbarmiddle{
+position: absolute;
+min-width:200px; 
+top: 0px;
+left: 0px; 
+}
+#topbarimage
+{
+background-image: url('pcentlogo4S.png'); 
+}

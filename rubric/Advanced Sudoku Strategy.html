@@ -1,0 +1,390 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0048)http://www.sudokudragon.com/advancedstrategy.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" id="SudokuDragon"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Advanced Sudoku Strategy</title>
+<meta name="keywords" content="sudoku advanced strategy,sudoku solving techniques,alternate pairs,conjugate pairs,x-y wing">
+<meta name="description" content="Solving Sudoku puzzle with advanced solution strategies including the Alternate Pair; Swordfish and Hook strategies">
+<link rel="stylesheet" type="text/css" href="./Advanced Sudoku Strategy_files/styles2.css"> 
+<link rel="stylesheet" media="only screen and (max-width: 460px)" type="text/css" href="./Advanced Sudoku Strategy_files/mobile.css">
+
+<script type="text/javascript">
+/**
+ * Consent cookie management
+ */
+
+/* Get current value of a cookie */
+function f_GetCookieValue (_cookie_name) 
+{
+  var name = _cookie_name + "=";
+  var cvalues = document.cookie.split (';');
+    for(var i=0; i<cvalues.length; i++) 
+    {
+        var cval = cvalues[i];
+        while (cval.charAt(0)==' ') 
+        {
+					cval = cval.substring(1);
+        }
+        if (cval.indexOf(name) == 0) 
+        {
+					return cval.substring(name.length,cval.length);
+        }
+    }
+    return "";
+} 
+
+/* Make consent form invisible */
+function f_HideConsentForm ()
+{
+	var ConsentQuestion = document.getElementById('cookieconsent');
+	if(ConsentQuestion != 0) 
+	{
+//		alert ('Hide consent'); 
+		ConsentQuestion.style.visibility = 'hidden';
+		ConsentQuestion.style.display = 'none';
+		}
+}
+
+/* Make consent form invisible */
+function f_ShowConsentForm ()
+{
+	var ConsentQuestion = document.getElementById('cookieconsent');
+	if(ConsentQuestion != 0) 
+	{
+		ConsentQuestion.style.visibility = 'visible';
+		ConsentQuestion.style.display = 'block';
+		ConsentQuestion.innerHTML = 'Because we display Google adverts on this page we uses cookies, is that OK? <a href="#" onclick="f_AddConsentCookie ();	f_HideConsentForm ();">Yes, I give consent<\/a>. See our <a href="/privacy.htm">privacy and cookie policy<\/a>';
+		ConsentQuestion.className = 'consentpopup';
+	}
+}
+
+/* Stop future consent by setting cookie */
+function f_AddConsentCookie ()
+{
+	var exdate = new Date ();
+//	alert ("Give consent");
+	exdate.setFullYear (exdate.getFullYear()+ 2);
+	document.cookie="sdk_advert_consent=yes; expires=" + exdate.toUTCString() + "; path=/; domain=.sudokudragon.com";
+ }
+
+function f_ClearConsent ()
+{
+// 	alert ("Clear consent");
+	document.cookie = "sdk_advert_consent=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/; domain=.sudokudragon.com"; 
+}
+
+function f_CheckConsent ()
+{
+// 	alert (getCookie("sdk_advert_consent"));
+	if (f_GetCookieValue ("sdk_advert_consent") == "yes")
+	{
+		f_HideConsentForm ();
+	}
+	else
+	{
+		// Populate consent form
+		f_ShowConsentForm ();
+	}
+}
+
+// Hook in the start up function when page loaded
+function f_AddOnload (f_func) 
+{
+	if (document.addEventListener) 
+	{
+		window.addEventListener('load', f_func, false);
+	}
+	else if (window.attachEvent) 
+	{
+		window.attachEvent('onload', f_func);
+	}
+	else 
+	{
+		var f_onLoad = window.onload;
+		if (typeof window.onload != 'function') 
+		{
+			window.onload = f_func;
+		}
+		else 
+		{
+			window.onload = function() 
+			{
+				f_onLoad();
+				f_func();
+			}
+		}
+	}
+}
+f_AddOnload (f_CheckConsent);
+</script>
+<style type="text/css">
+.consentpopup
+{
+position:fixed;
+top:0;
+left:0;
+background-color:#910703;
+color:white;
+font-size:110%;
+padding:6px;
+width:100%;
+}
+.consentpopup a:link 
+{
+font-weight:bold;
+color:#F9F2BF;
+background-color:#5B0000;
+padding:2px 4px;
+}
+.consentpopup a:visited
+{
+color:#F9F2BF;
+}
+.consentpopup a:active
+{
+color:#F9F2BF;
+}
+#cookieconsent
+{
+visibility:hidden;
+display:none;
+}
+</style>
+
+<link rel="stylesheet" type="text/css" href="chrome-extension://pkehgijcmpdhfbdbbnkijodmdjhbjlgp/skin/socialwidgets.css"></head>
+
+<body>
+<img src="./Advanced Sudoku Strategy_files/ptopcorner2.png" id="topbarleft" alt="Sudoku Dragon">
+<div id="topbarmiddle">
+	<div id="topbarimage"></div>
+</div>
+<div id="toptab">
+<div id="menucont">
+<div id="menubar">
+
+<div id="cookieconsent" class="consentpopup" style="visibility: visible; display: block;">Because we display Google adverts on this page we uses cookies, is that OK? <a href="http://www.sudokudragon.com/advancedstrategy.htm#" onclick="f_AddConsentCookie ();	f_HideConsentForm ();">Yes, I give consent</a>. See our <a href="http://www.sudokudragon.com/privacy.htm">privacy and cookie policy</a></div>
+
+
+
+
+
+
+
+
+
+<div><div class="nvts"><a href="http://www.sudokudragon.com/index.htm">Sudoku&nbsp;</a></div>
+
+<div class="nvs"><a href="http://www.sudokudragon.com/index.htm" title="Sudoku">Introduction</a><br><a href="http://www.sudokudragon.com/sudoku.htm" title="Sudoku puzzle">Sudoku</a><br><a href="http://www.sudokudragon.com/sudokuhistory.htm" title="History of Sudoku">History</a><br><a href="http://www.sudokudragon.com/sudokustrategy.htm" title="Sudoku Strategy">Strategy</a><br><a href="http://www.sudokudragon.com/advancedstrategy.htm"><b>Advanced</b></a><br><a href="http://www.sudokudragon.com/sudokutheory.htm" title="Sudoku Theory">Theory</a><br><a href="http://www.sudokudragon.com/samuraisudoku.htm" title="Samurai Sudoku Puzzles">Samurai</a><br><a href="http://www.sudokudragon.com/unsolvable.htm" title="Unsolvable Sudoku Puzzles">Unsolvable</a><br><a href="http://www.sudokudragon.com/sudokuvariants.htm" title="Sudoku Puzzles types">Types</a><br><a href="http://www.sudokudragon.com/sudokututorials.htm" title="Guide to solving Sudoku puzzles">Guides</a><br><a href="http://www.sudokudragon.com/sudokuguess.htm" title="Guessing a Sudoku Square">Guessing</a><br><a href="http://www.sudokudragon.com/symmetry.htm" title="Sudoku Puzzle Symmetry">Symmetry</a><br><a href="http://www.sudokudragon.com/sudokunews.htm" title="Latest news about Sudoku">News</a><br><a href="http://www.sudokudragon.com/books.htm" title="Books about Sudoku">Books</a><br></div>
+<div class="nvt"><a href="http://www.sudokudragon.com/dragonfeatures.htm" title="Information about Sudoku Dragon">Dragon&nbsp;</a></div>
+<div class="nvt"><a href="http://www.sudokudragon.com/daily.php" title="New Sudoku every day">Daily&nbsp;</a></div>
+<div class="nvt"><a href="http://www.sudokudragon.com/online.php" title="Play Sudoku online">Online&nbsp;</a></div>
+<div class="nvt"><a href="http://www.sudokudragon.com/forum/forumindex.htm" title="Sudoku Puzzle Forums">Forum&nbsp;</a></div>
+<div class="nvt"><a href="http://www.sudokudragon.com/helpindex.htm" title="Help and advice">Help&nbsp;</a></div>
+<div class="nvt"><a href="http://www.sudokudragon.com/help/helpindex.htm" title="Manual">Manual&nbsp;</a></div>
+</div>
+
+<img src="./Advanced Sudoku Strategy_files/pn.gif" width="120" height="15" alt="">
+<div class="tipbox">
+<h4>Sudoku Solver</h4>
+<div style="font-size:75%;">
+<a class="cl" href="http://www.sudokudragon.com/download.htm">Download</a> Sudoku Dragon for a free 23 day trial on your PC. It has all the features you need to solve puzzles whether you are new to Sudoku or an expert.
+</div></div>
+
+<div class="tipbox">
+<h4>Today's Dragon Tip</h4>
+<b>Tentative possibilities</b><br>To change the tentative possibilities just press SHIFT and the number you want to add to the current square. To clear all tentative possibilities from the current square press the F7 key.<br> <a class="cl" href="http://www.sudokudragon.com/dragonfeatures.htm">Read More</a>
+</div>
+
+</div><img class="botmenu" src="./Advanced Sudoku Strategy_files/pbotmenu.png" alt="" width="150" height="20"></div>
+<div id="mainpage">
+
+
+<h1>Sudoku Advanced Strategy</h1>
+
+<p class="dropfont">Now that you have mastered the <a class="cl" href="http://www.sudokudragon.com/sudokustrategy.htm">basic strategies</a> you can tackle almost any Sudoku puzzle. With the full range of tactics even puzzles categorized as 'fiendish' and 'challenging' can be solved. And yet one of the delights of Sudoku is that there is another level of advanced strategy to call upon that distinguishes the Sudoku Masters from the rest. Amazing that such an apparently simple puzzle can be so complex.</p>
+
+<div id="XL113">
+<h2>Colorful Sudoku Puzzles</h2>
+<p class="dropfont">When describing the <a class="cl" href="http://www.sudokudragon.com/sudokustrategy.htm#XL2108">X-Wing and Swordfish on our strategy page</a> we introduced  a good deal of logic. The tactics involved looking beyond one or two groups of squares in isolation in order to tackle interlocking groups. Both these strategies rely on looking at pairs of squares. They look through the available choices for allocation and finds squares that when all alternatives taken together  can rule out other options. The 'pair rule' applies for squares where a number can only go in one of two squares in the same group (which may be a row; column or region). If there are three or more squares the rule can not be used.</p>
+
+<img src="./Advanced Sudoku Strategy_files/padvxwing1.png" height="437" width="437" alt="X-Wing coloring" class="imgfloatleft imgresize">
+<p class="dropfont">
+Here is an example of a Sudoku <a class="cl" href="http://www.sudokudragon.com/sudokustrategy.htm#XL2108">X-Wing</a>. There are two rows where there are only two squares which can take a 4 (rows <b>A</b> and <b>H</b>)
+These match up by columns to form a box. There are only two alternative allocations for '4' in either <span style="background-color:#BDD1FD;font-weight:bold;padding:3px;">Ac</span> and <span style="background-color:#BDD1FD;font-weight:bold;padding:3px;">Hh</span> or <span style="background-color:#F2B65C;font-weight:bold;padding:3px;">Ah</span> and <span style="background-color:#F2B65C;font-weight:bold;padding:3px;">Hc</span>. This is much clearer to see by using alternate blue and orange coloring for the squares. Either the blue squares take a 4 or the orange squares take a 4. This is useful because it's now definitely proven that a 4 occurs in both column <b>c</b> and column <b>h</b> so all the squares that also looked as though they could have taken a 4 in these two columns can be discounted (these are shown in <span style="background-color:#FBD5CC;font-weight:bold;padding:3px;">pink</span>). Using alternate colors helps to show what is going on. [The Sudoku Dragon program supports six different <a class="cl" href="http://www.sudokudragon.com/tourmarking.htm" title="Marking squres to help solution">colors</a> for you to mark squares.]</p>
+
+<div class="downbox">
+To download this puzzle and<br> see it in Sudoku Dragon <a class="cl" href="http://www.sudokudragon.com/puzzledownload.php?path=examplepuzzles/AdvancedXWing.sdk"><img alt="download Sudoku puzzle" height="15" src="./Advanced Sudoku Strategy_files/pdownpuzz.png">&nbsp;click here...</a>
+</div>
+
+<br style="clear:left">
+
+<p class="dropfont"><img src="./Advanced Sudoku Strategy_files/padvsword1.png" height="437" width="437" alt="Swordfish coloring" class="imgfloatleft imgresize">
+So now let's turn to the Sudoku Swordfish to see if coloring helps there too. In this Swordfish there are three rows (<b>A</b>, <b>B</b> and <b>H</b>) all with a pair of possible squares that could take a 6. As the squares are located in just three columns <b>b</b>; <b>g</b> and <b>i</b> they form a 'Swordfish'. The 6s must either go in all the blue squares or all the orange squares, they can not be allocated any other way.  Because the three columns <b>b</b>; <b>g</b> and <b>i</b> all contain both a blue and orange square then a 6 can not go in any other square in these columns. So the pink square <span style="background-color:#FBD5CC;font-weight:bold;padding:3px;">Gi</span> can not actually take a 6 even though it looks as though it could do. Coloring the pairs has made it easy to see what is possible.</p>
+<br style="clear:left">
+
+<p style="border:2px inset #8080d0;margin:10px"> 
+<script async="true" type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- SDKH -->
+<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-0075574414120639" data-ad-slot="4141971572"></ins>
+<script type="text/javascript">
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+&nbsp;</p>
+
+<h2>Alternate Pair Exclusion</h2>
+
+<div class="colbox" style="background-color:#fff8e0;float:right;width:150px;font-size:85%"><img src="./Advanced Sudoku Strategy_files/sudoku.png" alt="sudoku" width="40" height="40" class="imgfloatleft">
+<span class="dropfontletter">F</span>or generation and solution of Sudoku puzzles download and install Sudoku Dragon.<br>
+It is the complete Sudoku package, including hints, guides, and many new puzzle types.
+<a class="cl" href="http://www.sudokudragon.com/download.htm"><b>Download</b></a> our Sudoku puzzle solver for a free 23 day trial.
+<div style="border-radius:10px;border:2px outset #b07a53;padding:12px;background:#E8EDFF;overflow:hidden" class="dropfont">
+<img src="./Advanced Sudoku Strategy_files/flower.png" class="imgfloatleft" alt="">
+<b>September 2016</b>: We are still holding the reduced price of  <b>$9</b>, download for <a href="http://www.sudokudragon.com/downloaddragon.php">free trial here</a>.
+</div>
+
+<div style="border-radius:10px;border:2px outset #b07a53;padding:12px;background:rgb(255, 225, 205);overflow:hidden" class="dropfont">
+<img src="./Advanced Sudoku Strategy_files/OglessIcon.png" class="imgfloatleft" alt="">
+<b>Ogless</b>: Interested in something to brighten up your screen? Try our new and free innovative Windows <a class="ExtLink" href="http://www.ogless.com/timesaver.htm">Ogless screen-saver <span class="ExtArr">➚</span></a>.
+</div>
+
+
+</div>
+
+
+
+<p class="dropfont">The  X-Wing and Swordfish are examples of a more general rule. This is always satisfying for a mathematician, by looking at simple examples it is possible to extend the same logic to a general rule (this is the basis of <a class="ExtLink" href="https://en.wikipedia.org/wiki/Mathematical_induction">proof by induction <span class="ExtArr">➚</span></a>).</p>
+
+<p>If you identify pairs of squares in the same row; column or region for the same number you can start coloring them. If one of the pair is also a pair in another group (row; column; region) you can continue using the same alternating coloring scheme for that pair. These are termed 'alternate pairs' as the true allocation must be in one of the two alternative squares in the pair. [You will sometimes see these called 'conjugate pairs' on other sites, but as this term comes from mathematics, it is not very descriptive.]</p>
+<p>When you have finished coloring the linked pairs you can then analyze the pattern of colored squares. If you find a group (row; column or region) that has both colors then any other square that could take that number can be safely excluded as a possibility. This general rule covers not only the X-Wing and Swordfish types but a range of other patterns of possibilities. Let's look at an example.</p>
+
+<p class="dropfont"><img src="./Advanced Sudoku Strategy_files/padvapt1a.png" height="437" width="437" alt="Alternate Pair Exclusion" class="imgfloatleft imgresize">
+Here is a grid with the possibilities for 6 colored. There are pairs of possibilities for 6 in row <b>B</b> and <b>C</b> as well as region <b>Ag</b> (it is often a pair in a region that proves most helpful). The pair in column <b>b</b> does not interlink with another pair and so does not help. The coloring shows that column <b>a</b> has both an orange and a blue square in it so the 'possible' 6 in square <span style="background-color:#FBD5CC;font-weight:bold;padding:3px;">Ha (pink)</span> can be dismissed as an actual possibility. For more on Sudoku Dragon's support see our <a class="cl" href="http://www.sudokudragon.com/tourmarking.htm" title="Marking squres to help solution">square coloring page</a>.</p>
+<p><a class="cl" href="http://www.sudokudragon.com/download.htm">Sudoku Dragon</a> can automatically highlight alternate pairs for you and uses the alternate pair strategy to solve difficult puzzles.</p>
+
+<div class="downbox">
+To download this puzzle and<br> see it in Sudoku Dragon <a class="cl" href="http://www.sudokudragon.com/puzzledownload.php?path=examplepuzzles/AdvancedAltPairs1.sdk"><img alt="download Sudoku puzzle" height="15" src="./Advanced Sudoku Strategy_files/pdownpuzz.png">&nbsp;click here...</a>
+</div>
+
+<br style="clear:left">
+
+<p class="dropfont">However the hard work of alternate pair coloring is not guaranteed to help solve squares. Because it takes so long to work through, it is a technique to hold in reserve for very tricky puzzles. Pairs are most frequently found whether you have a dozen or so possible squares left for a number, they are not as common at the beginning or end of Sudoku puzzle solving.</p>
+
+<h2>Alternate Pair Deduction</h2>
+<p class="dropfont">Just when you thought Sudoku solution strategies were becoming too mind blowingly complex, there are yet further twists to be added. It is another excuse to get out your crayons and start coloring Sudoku squares.  The approach differs slightly to 'alternate pair exclusion' in the previous section, the pairs are identified and colored in just the same way but the logic used is different. If after coloring you have any group with two squares of the same color then something is distinctly wrong as that implies you could have two squares with the same symbol in the same group. If two or more squares have the same color then this particular color assignment is impossible and the other color must be the correct one and all those squares can all be allocated as the only possible squares for the symbol. Here is an example:</p>
+
+<p class="dropfont"><img src="./Advanced Sudoku Strategy_files/padvapt2a.png" height="437" width="437" alt="Alternate Pair Forcing" class="imgfloatleft imgresize">
+Starting with orange for the square <span style="background-color:#F7BD63;font-weight:bold;padding:3px;">Fd</span> and blue for its alternate row pair <span style="background-color:#C6D6FF;font-weight:bold;padding:3px;">Fe</span>, the pairs in column <b>e</b> come into play and orange goes into <span style="background-color:#F7BD63;font-weight:bold;padding:3px;">Ae</span>. From <b>Fd</b> there is a pair in column <b>d</b> so blue for <span style="background-color:#C6D6FF;font-weight:bold;padding:3px;">Id</span>, then following the pair in row <b>I</b> orange goes in <span style="background-color:#F7BD63;font-weight:bold;padding:3px;">Ia</span>, now there is a pair in region <b>Ga</b> which means <span style="background-color:#C6D6FF;font-weight:bold;padding:3px;">Gb</span> must also be blue. 
+Finally column <b>b</b> is a pair so <span style="background-color:#F7BD63;font-weight:bold;padding:3px;">Ab</span> is orange. So we end up with two <span style="background-color:#F7BD63;font-weight:bold;padding:3px;">orange</span> squares in row <b>A</b>, which can not be right. If the 7s went in the orange squares there would be two 7s in row <b>A</b>. So the 7s can not go in the orange squares they must go in all the blue squares <span style="background-color:#C6D6FF;font-weight:bold;padding:3px;">Fe</span>; 
+<span style="background-color:#C6D6FF;font-weight:bold;padding:3px;">Gb</span> and <span style="background-color:#C6D6FF;font-weight:bold;padding:3px;">Id</span>.</p>
+
+<div class="downbox">
+To download this puzzle and<br> see it in Sudoku Dragon <a class="cl" href="http://www.sudokudragon.com/puzzledownload.php?path=examplepuzzles/AdvancedAltPairs2.sdk"><img alt="download Sudoku puzzle" height="15" src="./Advanced Sudoku Strategy_files/pdownpuzz.png">&nbsp;click here...</a>
+</div>
+
+<br style="clear:left">
+
+
+<div class="tutbox">
+<img src="./Advanced Sudoku Strategy_files/sudoku.png" alt="Sudoku Tutorial" width="40" class="imgfloatleft">
+<span style="font-size:130%">F</span>or a further in-depth guide <a class="cl" href="http://www.sudokudragon.com/tutorialalternatepairs.htm"><img alt="guide" height="18" src="./Advanced Sudoku Strategy_files/arun2.gif">&nbsp;click here</a></div>
+
+<br style="clear:left">
+<h2>Multicolored Alternate Pairs</h2>
+<div class="rightgoogle">
+<script type="text/javascript" async="true" src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- SDKSideR -->
+<ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="ca-pub-0075574414120639" data-ad-slot="4966372774"></ins>
+<script type="text/javascript">
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+	</div>
+
+
+<p class="dropfont">Once you have mastered Alternate Pairs it is also worth looking out for another extension to the basic technique. When you color a grid you will quite often find there are two independent chains of interlinked pairs. You will need two more colors to mark up the other set of pairs and you end up with a very colorful grid! The network of linked colored squares can restrict and force square allocations rather like in the case of a single network of colored pairs.</p>
+
+<p class="dropfont"><img src="./Advanced Sudoku Strategy_files/padvap2t1a.png" height="437" width="437" alt="Alternate Pairs Exclusion" class="imgfloatleft imgresize">
+Here's a Sudoku puzzle with all the squares that can take a 6 have been marked using the Sudoku Dragon program. There are some useful looking pairs. In region <b>Dg</b> the  orange square <span style="background-color:#F6B658;font-weight:bold;padding:3px;">Eh</span> and  blue square <span style="background-color:#C0D1FF;font-weight:bold;padding:3px;">Fg</span> which links on Row <b>F</b> to orange pair <b>Ff</b>, and <b>Eh</b> links through column <b>h</b> to blue square <span style="background-color:#C0D1FF;font-weight:bold;padding:3px;">Gh</span>. 
+Square <b>Fg</b> links through column <b>g</b> to orange <span style="background-color:#F6B658;font-weight:bold;padding:3px;">Hg</span>. That's it for that set but there is another pair in column <b>c</b>. Square <span style="background-color:#FF8A93;font-weight:bold;padding:3px;">Gc</span> has been colored red and <span style="background-color:#95FEBA;font-weight:bold;padding:3px;">Ic</span> green. Now the crucial fact is that the two sets are related via row <b>G</b> (NOTE: the possibility of a 6  in <b>Gd</b> forbids the two sets being fully interlinked). If a 6 were to go in the blue squares it could not go in the red square it would have to go in the green square <span style="background-color:#95FEBA;font-weight:bold;padding:3px;">Ic</span>. 
+Alternatively if a 6 was correct for the orange squares then this does not intersect with the red-green pair directly so it can't be deduced which one is correct. 
+However, putting the two alternatives together where the orange and green squares intersect it's now possible to work out which squares can not take a 6. In this example it is square <span style="background-color:#FFDAD1;font-weight:bold;padding:3px;">If</span> marked in pink. Either there is a 6 in orange square <span style="background-color:#F6B658;font-weight:bold;padding:3px;">Ff</span> or a '6' in green square <b>Ic</b> so both possible cases forbid a 6 in the <span style="background-color:#FFDAD1;font-weight:bold;padding:3px;">pink square</span> <span style="background-color:#FFDAD1;font-weight:bold;padding:3px;">If</span> which intersects this row and column.</p>
+
+<div class="downbox">
+To download this puzzle and<br> see it in Sudoku Dragon <a class="cl" href="http://www.sudokudragon.com/puzzledownload.php?path=examplepuzzles/AdvancedAltPairs3.sdk"><img alt="download Sudoku puzzle" height="15" src="./Advanced Sudoku Strategy_files/pdownpuzz.png">&nbsp;click here...</a>
+</div>
+
+<br style="clear:left">
+
+<p style="border:2px inset #8080d0;margin:10px"> 
+<script async="true" type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- SDKH -->
+<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-0075574414120639" data-ad-slot="4141971572"></ins>
+<script type="text/javascript">
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+&nbsp;</p>
+
+<h2>Further twists</h2>
+<p class="dropfont">What was achieved with pairs could equally be achieved with <a class="cl" href="http://www.sudokudragon.com/sudokustrategy.htm#XL2106">triplets or quadruplets</a> of possibilities. 
+All that is needed is to work through the logic and see if all the three or four alternatives all combine 
+to have a common implication. However these are too rare and too hard to identify to be of practical use.</p>
+</div>
+
+<div id="XL115">
+<h2>Hook or X-Y Wing</h2>
+<p class="dropfont">When I first saw the term X-Y Wing I thought someone had just mistyped <a class="cl" href="http://www.sudokudragon.com/sudokustrategy.htm#XL2108">X-Wing</a> or that it was yet another variant of it. It turned out that the Sudoku X-Y Wing is another advanced Sudoku strategy separate from pairs but once again using the 'either-or' logic that flows from using connected groups.</p> 
+
+<p>To avoid confusion we'll use the term <b>Hook</b> for this technique. Under rather special circumstances, the Hook knocks out other possibilities. A hook (or X-Y Wing) requires you to find three squares. The squares must all have two possibilities each in three different numbers. The three squares form a <a class="cl" href="http://www.sudokudragon.com/sudokustrategy.htm#XL2106">chain</a> of pairs of possibilities. 
+An example of such a cyclic chain is [2; 5] [5;7] and [7;2] expressed this way you can see the chain of 
+possibilities as [2 » 5 » 7 » 2]. The location of these squares is all important, two must be in the same row or column, 
+they form the 'stem' of the hook and the other square must be in the same region as one of the other two squares.</p> 
+<p>Correct identification of where a Hook is located is all too easy to slip up on. But how is this obscure relationship useful?  Well the way these squares is arranged restricts possibilities elsewhere in the puzzle. If in our example the stem contains [2,5] and [5,7] then 5 is the stem number and the [2,7] the branch or hook.  If 5 is the correct choice for the [2,5] square then that means the [5,7] square must be 7. The only alternative for the [2,5] square is 2, now if this is '2' then this forces the [2,7] square to be 7 and therefore the [5,7] square must be 5. These are the only two choices and if there are any squares where a 7 is not possible for both these two alternatives then we can safely exclude 7 as a possibility for them.</p>
+
+<p><img src="./Advanced Sudoku Strategy_files/padvxywing1.png" height="437" width="437" alt="X-Y Wing Strategy" class="imgfloatleft imgresize">
+Here are some pictures of a real puzzle that may help. It is a Sudoku at a stage where all the easy squares have been allocated.</p>
+<p>The light green squares are of interest, they are <span style="background-color:#B7FC9B;font-weight:bold;padding:3px;">Bd</span> that can be only [2,7];  
+<span style="background-color:#B7FC9B;font-weight:bold;padding:3px;">Ce</span> that can take [2,5] (the 9 is not possible because of the naked twin [4,9] in row <b>C</b>) and <span style="background-color:#B7FC9B;font-weight:bold;padding:3px;">Ch</span> that can take [5,7] ) (the 9 is excluded for the same reason). So we have our chain [2,7] [7,5] [5,2] of three squares. The last two form the stem of the hook and 7 is the hook number. Following our logic if the 2 went in <b>Ce</b> this means a 7 must go in <b>Bd</b> and a 5 in <b>Ch</b>. 
+So this gives us the following segment of the grid. </p>
+
+<div class="downbox">
+To download this puzzle and<br> see it in Sudoku Dragon <a class="cl" href="http://www.sudokudragon.com/puzzledownload.php?path=examplepuzzles/AdvancedXYWing1.sdk"><img alt="download Sudoku puzzle" height="15" src="./Advanced Sudoku Strategy_files/pdownpuzz.png">&nbsp;click here...</a>
+</div>
+
+
+<br style="clear:left">
+<p><img src="./Advanced Sudoku Strategy_files/padvxywing1A.png" height="146" width="400" alt="Hook Strategy alternative A" class="imgfloatleft imgresize">
+The green squares are the ones we have tentatively allocated and the <span style="background-color:#A5D1F6;font-weight:bold;padding:3px;">blue squares</span> indicate where a 7 can not be allocated. </p> 
+<br style="clear:left">
+<p><img src="./Advanced Sudoku Strategy_files/padvxywing1B.png" height="146" width="400" alt="Hook Strategy alternative B" class="imgfloatleft imgresize">
+The only other option for <span style="background-color:#B7FC9B;font-weight:bold;padding:3px;">Ce</span> was for it to be a 5 rather than a 2, and this forces us to put a 7 in <b>Ch</b>. So now we have the alternative scenario with <span style="background-color:#B7FC9B;font-weight:bold;padding:3px;">Ch</span> and <span style="background-color:#B7FC9B;font-weight:bold;padding:3px;">Ce</span> highlighted in green and for this alternative the <span style="background-color:#A5D1F6;font-weight:bold;padding:3px;">blue squares</span> show other squares which can not take a 7.</p>
+<br style="clear:left">
+<p class="dropfont">Well, we are in luck as there are two squares which are blue in both the alternatives, that is square <span style="background-color:#000080;color:#ffffff;font-weight:bold;padding:3px;">Bh</span> and <span style="background-color:#000080;color:#ffffff;font-weight:bold;padding:3px;">Cf</span> - which we have highlighted in dark blue. Square Cf is not particularly helpful because we already knew a 7 could not go there - there is a 7 in column f (Square Gf). Square Bh can not be a 7 for either of the only two possibilities available for <span style="background-color:#B7FC9B;font-weight:bold;padding:3px;">Ce</span> (5 or 2) and so 7 can be safely excluded from the possibilities for this square. In the case of this particular puzzle, this is crucial, as that leaves only one choice for <span style="background-color:#000080;color:#ffffff;font-weight:bold;padding:3px;">Bh</span> as it can not be a 7 it must be the remaining possibility of '9', the hook strategy enables us to immediately solve a square and it turns out to be the last tricky one to be solved.</p>
+
+<p class="dropfont">The Sudoku Hook is a general technique, the term X-Y Wing name comes from its mathematical formulation as three squares containing [x, y]; [y, z] and [x, z]. (In our case x=5; y=2; z=7). It tells us that the shared squares where the two alternative allocations for z intersect can not possibly contain a z.</p>
+
+
+<div class="tutbox">
+<img src="./Advanced Sudoku Strategy_files/sudoku.png" alt="Sudoku Tutorial" width="40" class="imgfloatleft">
+<span style="font-size:130%">F</span>or a further in-depth guide <a class="cl" href="http://www.sudokudragon.com/tutorialhook.htm"><img alt="guide" height="18" src="./Advanced Sudoku Strategy_files/arun2.gif">&nbsp;click here</a></div>
+
+</div>
+
+<br style="clear:left">
+
+<p class="contribution dropfont"><img src="./Advanced Sudoku Strategy_files/pwrite.gif" alt="contribute" class="imgfloatleft">Any comments on this page? <a class="cl" href="http://www.sudokudragon.com/login.php?id=13&amp;templateid=13&amp;name=Puzzle%20Guesswork">Click here to contribute</a></p>
+
+<p style="border-radius:10px;border:2px ridge #b07a53;padding:12px;background:#fff7e0" class="dropfont">
+Have you mastered all the strategies for solving Sudoku? Our strategy page gives an introduction to all the main tactics for solving a Sudoku puzzle. We have separate pages on Trial and error as well as Advanced Strategies.. <a class="cl" href="http://www.sudokudragon.com/sudokustrategy.htm">Read more...</a>
+</p>
+
+
+ <p class="smallfont">Copyright © 2005-2016 Sudoku Dragon</p>
+ </div>
+</div>
+
+
+
+
+																																																				  
+</body></html>

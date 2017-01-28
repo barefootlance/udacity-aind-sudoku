@@ -1,0 +1,4 @@
+{
+    "python.linting.pylintEnabled": false,
+    "python.pythonPath": "/home/lance/anaconda3/envs/aind/bin/python3.6"
+}
